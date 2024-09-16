@@ -6,7 +6,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>773,3038</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>773,4978</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -53,6 +53,8 @@
       <x:String>System.Reflection</x:String>
       <x:String>UiPath.Excel</x:String>
       <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+      <x:String>System.Numerics</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -118,33 +120,43 @@
       <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
       <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
       <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="608,2973" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="688,4913" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="ExtractDataTable" />
+      <Variable x:TypeArguments="sd:DataTable" Name="AverageTable" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="Mahalleler" />
+      <Variable x:TypeArguments="scg:List(sd:DataRow)" Name="FilteredRows" />
+      <Variable x:TypeArguments="scg:List(x:Double)" Name="Fiyatlar" />
+      <Variable x:TypeArguments="x:Double" Name="OrtalamaFiyat" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="546,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
-    <ui:Comment DisplayName="Comment (placeholder)" sap:VirtualizedContainerService.HintSize="546,88" sap2010:WorkflowViewState.IdRef="Comment_1" Text="//  Invoke steps of the process" />
-    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="IfOpenedByAppBrowser" DisplayName="Use Browser Chrome: Konut Fiyatları ve Emlak İlanları sahibinden.com'da" sap:VirtualizedContainerService.HintSize="546,2552" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="40e12af4-f271-4338-ac94-13dce389ad66" Version="V2">
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="626,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
+    <ui:Comment DisplayName="Comment (placeholder)" sap:VirtualizedContainerService.HintSize="626,88" sap2010:WorkflowViewState.IdRef="Comment_1" Text="//  Invoke steps of the process" />
+    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="IfOpenedByAppBrowser" DisplayName="Use Browser Chrome: Konut Fiyatları ve Emlak İlanları sahibinden.com'da" sap:VirtualizedContainerService.HintSize="626,2950" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="40e12af4-f271-4338-ac94-13dce389ad66" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="512,2312" sap2010:WorkflowViewState.IdRef="Sequence_2">
-            <Sequence.Variables>
-              <Variable x:TypeArguments="sd:DataTable" Default="[New System.Data.DataTable]" Name="ExtractDataTable" />
-            </Sequence.Variables>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="592,2701" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <uix:NSelectItem DisplayName="Select Item 'Konut'" sap:VirtualizedContainerService.HintSize="450,189" sap2010:WorkflowViewState.IdRef="NSelectItem_2" Item="[in_TransactionItem.SpecificContent(&quot;emlakdurumu&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NSelectItem DisplayName="Select Item 'Konut'" sap:VirtualizedContainerService.HintSize="530,189" sap2010:WorkflowViewState.IdRef="NSelectItem_2" Item="[in_TransactionItem.SpecificContent(&quot;emlakdurumu&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NSelectItem.Items>
                 <scg:List x:TypeArguments="x:String" Capacity="4">
                   <x:String>Satılık</x:String>
@@ -156,14 +168,14 @@
               <uix:NSelectItem.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="51682663-740d-4baa-af5c-05e5c1906c52" CvElementArea="453, 329, 147, 34" CvType="InputBox" DesignTimeRectangle="454, 330, 145, 32" DesignTimeScaleFactor="1" FuzzySelectorArgument="&lt;webctrl type='' parentid='searchForm' tag='DIV' class='sahibindenSelect closed categoryArea' aaname='' /&gt;" Guid="aafdd189-3167-471c-8c5e-40fe5dce3c1f" ImageBase64="" InformativeScreenshot="b2ef32d9bcc66cb68da5f709791cca8c.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target CVScreenId="51682663-740d-4baa-af5c-05e5c1906c52" CvTextArea="494, 285, 33, 11" CvTextArgument="Konut" CvType="Text" DesignTimeRectangle="444, 276, 110, 30" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Konut' parentid='container' tag='A' type='' class='' check:innerText='Konut' /&gt;" Guid="3388f6de-c468-4c1d-8f35-3fdec0892d9c" SearchSteps="FuzzySelector, CV" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
                 </uix:TargetAnchorable>
               </uix:NSelectItem.Target>
             </uix:NSelectItem>
-            <uix:NSelectItem DisplayName="Select Item 'Konut'" sap:VirtualizedContainerService.HintSize="450,189" sap2010:WorkflowViewState.IdRef="NSelectItem_3" Item="[in_TransactionItem.SpecificContent(&quot;konuttipi&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NSelectItem DisplayName="Select Item 'Konut'" sap:VirtualizedContainerService.HintSize="530,189" sap2010:WorkflowViewState.IdRef="NSelectItem_3" Item="[in_TransactionItem.SpecificContent(&quot;konuttipi&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NSelectItem.Items>
                 <scg:List x:TypeArguments="x:String" Capacity="7">
                   <x:String>Konut</x:String>
@@ -178,14 +190,14 @@
               <uix:NSelectItem.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="2fe77521-b974-4737-930b-d432d45066c7" CvElementArea="608, 329, 148, 35" CvType="InputBox" DesignTimeRectangle="609, 330, 145, 32" DesignTimeScaleFactor="1" FuzzySelectorArgument="&lt;webctrl type='' class='sahibindenSelect subCategoryArea activeSelect closed' parentid='searchForm' tag='DIV' aaname='' /&gt;" Guid="dc6870a6-aa59-4d37-9228-f25a12224f6d" ImageBase64="" InformativeScreenshot="4a7e03cbae743e059e231cef3e6aca78.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target CVScreenId="2fe77521-b974-4737-930b-d432d45066c7" CvTextArea="494, 285, 33, 11" CvTextArgument="Konut" CvType="Text" DesignTimeRectangle="444, 276, 110, 30" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Konut' parentid='container' tag='A' type='' class='' check:innerText='Konut' /&gt;" Guid="9378a671-42f4-4d72-8f1e-45672d045624" SearchSteps="FuzzySelector, CV" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
                 </uix:TargetAnchorable>
               </uix:NSelectItem.Target>
             </uix:NSelectItem>
-            <uix:NSelectItem DisplayName="Select Item 'Ara'" sap:VirtualizedContainerService.HintSize="450,189" sap2010:WorkflowViewState.IdRef="NSelectItem_4" Item="[in_TransactionItem.SpecificContent(&quot;Il&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NSelectItem DisplayName="Select Item 'Ara'" sap:VirtualizedContainerService.HintSize="530,189" sap2010:WorkflowViewState.IdRef="NSelectItem_4" Item="[in_TransactionItem.SpecificContent(&quot;Il&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NSelectItem.Items>
                 <scg:List x:TypeArguments="x:String" Capacity="50">
                   <x:String>İl</x:String>
@@ -243,14 +255,14 @@
               <uix:NSelectItem.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="2fe77521-b974-4737-930b-d432d45066c7" CvElementArea="764, 329, 147, 34" CvType="InputBox" DesignTimeRectangle="765, 330, 145, 32" DesignTimeScaleFactor="1" FuzzySelectorArgument="&lt;webctrl type='' class='sahibindenSelect closed city' parentid='searchForm' tag='DIV' aaname='' /&gt;" Guid="c30a9b73-b103-40d2-b4b6-d629d18aa23a" ImageBase64="" InformativeScreenshot="10c8531acf0d5e60d06362ff51c4abac.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target CVScreenId="2fe77521-b974-4737-930b-d432d45066c7" CvElementArea="1014, 378, 98, 36" CvTextArea="1049, 387, 25, 14" CvTextArgument="Ara" CvType="Button" DesignTimeRectangle="1015, 380, 95, 32" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Ara' parentid='searchForm' tag='A' type='' class='btn search' check:innerText='Ara' /&gt;" Guid="5c426d7b-532b-48f3-9c52-0049c262e8e7" SearchSteps="FuzzySelector, CV" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
                 </uix:TargetAnchorable>
               </uix:NSelectItem.Target>
             </uix:NSelectItem>
-            <uix:NSelectItem DisplayName="Select Item 'Ara'" sap:VirtualizedContainerService.HintSize="450,189" sap2010:WorkflowViewState.IdRef="NSelectItem_5" Item="[in_TransactionItem.SpecificContent(&quot;Ilce&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NSelectItem DisplayName="Select Item 'Ara'" sap:VirtualizedContainerService.HintSize="530,189" sap2010:WorkflowViewState.IdRef="NSelectItem_5" Item="[in_TransactionItem.SpecificContent(&quot;Ilce&quot;).ToString]" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NSelectItem.Items>
                 <scg:List x:TypeArguments="x:String" Capacity="19">
                   <x:String>İlçe</x:String>
@@ -277,28 +289,28 @@
               <uix:NSelectItem.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="1acd3654-eb8d-4d19-ace5-520cee358a4f" CvElementArea="919, 329, 147, 34" CvType="InputBox" DesignTimeRectangle="920, 330, 145, 32" DesignTimeScaleFactor="1" FuzzySelectorArgument="&lt;webctrl type='' class='sahibindenSelect town activeSelect closed' parentid='searchForm' tag='DIV' aaname='' /&gt;" Guid="73669f36-ed5b-417a-8a4d-017519068452" ImageBase64="" InformativeScreenshot="bb198a8d8a0d2efb723c415e1d10c6cd.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target CVScreenId="1acd3654-eb8d-4d19-ace5-520cee358a4f" CvElementArea="1014, 378, 98, 36" CvTextArea="1049, 387, 25, 14" CvTextArgument="Ara" CvType="Button" DesignTimeRectangle="1015, 380, 95, 32" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Ara' parentid='searchForm' tag='A' type='' class='btn search' check:innerText='Ara' /&gt;" Guid="72172b04-b17f-4c2d-9946-051cc519ead1" SearchSteps="FuzzySelector, CV" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
                 </uix:TargetAnchorable>
               </uix:NSelectItem.Target>
             </uix:NSelectItem>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'INPUT minPrice'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="450,250" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Text="[in_TransactionItem.SpecificContent(&quot;MinimumFiyat&quot;).ToString]" Version="V4">
+            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'INPUT minPrice'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="530,250" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Text="[in_TransactionItem.SpecificContent(&quot;MinimumFiyat&quot;).ToString]" Version="V4">
               <uix:NTypeInto.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="74bf7ecf-fea8-48f2-a3c5-53e288d97a46" CvElementArea="453, 380, 79, 34" CvType="InputBox" DesignTimeRectangle="454, 380, 77, 32" DesignTimeScaleFactor="1" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='minPrice' tag='INPUT' type='text' class='priceField' placeholder='Min TL' aaname='' /&gt;" Guid="3d0573ba-7bf2-465f-a284-aa898e87d5f1" InformativeScreenshot="5305f6124f6f8d320f62db90e631d5c2.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive" />
               </uix:NTypeInto.Target>
             </uix:NTypeInto>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'INPUT maxPrice'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="450,250" sap2010:WorkflowViewState.IdRef="NTypeInto_2" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Text="[in_TransactionItem.SpecificContent(&quot;MaksimumFiyat&quot;).ToString]" Version="V4">
+            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'INPUT maxPrice'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="530,250" sap2010:WorkflowViewState.IdRef="NTypeInto_2" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Text="[in_TransactionItem.SpecificContent(&quot;MaksimumFiyat&quot;).ToString]" Version="V4">
               <uix:NTypeInto.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="74bf7ecf-fea8-48f2-a3c5-53e288d97a46" CvElementArea="545, 379, 81, 34" CvType="InputBox" DesignTimeRectangle="546, 380, 77, 32" DesignTimeScaleFactor="1" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='maxPrice' tag='INPUT' type='text' class='priceField' placeholder='Max TL' aaname='' /&gt;" Guid="d72109e9-db96-4650-a81a-5f5e580e8a20" InformativeScreenshot="6760dc7e259495106dd920cce4623164.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive" />
               </uix:NTypeInto.Target>
             </uix:NTypeInto>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Ara'" sap:VirtualizedContainerService.HintSize="450,225" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Ara'" sap:VirtualizedContainerService.HintSize="530,225" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NClick.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kategori/emlak-konut" CVScreenId="eaff6bfc-935b-414d-bcb5-990e9e3a1aed" CvElementArea="1014, 378, 98, 36" CvTextArea="1049, 387, 25, 14" CvTextArgument="Ara" CvType="Button" DesignTimeRectangle="1015, 380, 95, 32" DesignTimeScaleFactor="1" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Ara' parentid='searchForm' tag='A' type='' class='btn search' check:innerText='Ara' /&gt;" Guid="769f490f-51d3-41b4-8692-b329d162d045" InformativeScreenshot="b5ec3a36866baefb88a5cdc2874495ac.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konut Fiyatları ve Emlak İlanları sahibinden.com&amp;apos;da' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target CVScreenId="eaff6bfc-935b-414d-bcb5-990e9e3a1aed" CvElementArea="143, 138, 164, 38" CvTextArea="147, 148, 156, 20" CvTextArgument="sahibinden.com" CvType="Button" DesignTimeRectangle="145, 141, 160, 34" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='logo' tag='A' type='' aaname='                      sahibinden.com anasayfasına dön' check:innerText='sahibinden.com anasayfasına dön' /&gt;" Guid="eb2e2715-4682-4a3f-b76e-66338fceeb04" SearchSteps="FuzzySelector, CV" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
@@ -315,12 +327,39 @@
                 </uix:VerifyExecutionOptions>
               </uix:NClick.VerifyOptions>
             </uix:NClick>
-            <uix:NExtractData AppendResults="False" ContinueOnError="True" DataTable="[ExtractDataTable]" DisplayName="Extract Table Data" ExtractDataSettings="&lt;Table xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' Type='Structured' AddCvHeader='true' IsScrollEnabled='false'&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column0' Name='İlan Başlığı'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column1' Name='m^2'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column2' Name='Oda Sayısı'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column3' Name='Fiyat'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column4' Name='İlan Tarihi'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column5' Name='Mahalle'&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xD;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xD;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xD;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xD;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xD;&#xA;&#x9;&lt;/Column&gt;&#xD;&#xA;&lt;/Table&gt;" ExtractMetadata="&lt;extract&gt;&lt;row exact='1'&gt;&lt;webctrl tag='tr' /&gt;&lt;/row&gt;&lt;column exact='1' name='Column0' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='2' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column1' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='3' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column2' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='4' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column3' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='5' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column4' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='6' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column5' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='7' /&gt;&lt;/column&gt;&lt;/extract&gt;" sap:VirtualizedContainerService.HintSize="450,189" sap2010:WorkflowViewState.IdRef="NExtractData_3" LimitExtractionTo="None" MaximumResults="0" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
+            <uix:NExtractData AppendResults="False" ContinueOnError="True" DataTable="[ExtractDataTable]" DisplayName="Extract Table Data" ExtractDataSettings="&lt;Table xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' Type='Structured' AddCvHeader='true' IsScrollEnabled='false'&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column0' Name='İlan Başlığı'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column1' Name='m^2'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column2' Name='Oda Sayısı'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column3' Name='Fiyat'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column4' Name='İlan Tarihi'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&#x9;&lt;Column xsi:type='DataColumn' ReferenceName='Column5' Name='Mahalle'&gt;&#xA;&#x9;&#x9;&lt;IsValidName&gt;true&lt;/IsValidName&gt;&#xA;&#x9;&#x9;&lt;ValidationErrorMessage /&gt;&#xA;&#x9;&#x9;&lt;IsExtra&gt;false&lt;/IsExtra&gt;&#xA;&#x9;&#x9;&lt;CanExtractSimilar&gt;false&lt;/CanExtractSimilar&gt;&#xA;&#x9;&#x9;&lt;Format xsi:type='TextColumnFormat' /&gt;&#xA;&#x9;&lt;/Column&gt;&#xA;&lt;/Table&gt;" ExtractMetadata="&lt;extract&gt;&lt;row exact='1'&gt;&lt;webctrl tag='tr' /&gt;&lt;/row&gt;&lt;column exact='1' name='Column0' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='2' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column1' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='3' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column2' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='4' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column3' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='5' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column4' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='6' /&gt;&lt;/column&gt;&lt;column exact='1' name='Column5' attr='fulltext'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='7' /&gt;&lt;/column&gt;&lt;/extract&gt;" sap:VirtualizedContainerService.HintSize="530,189" sap2010:WorkflowViewState.IdRef="NExtractData_3" LimitExtractionTo="None" MaximumResults="0" ScopeIdentifier="40e12af4-f271-4338-ac94-13dce389ad66" Version="V4">
               <uix:NExtractData.Target>
                 <uix:TargetAnchorable BrowserURL="https://www.sahibinden.com/kiralik-daire/izmir-konak?price_min=5000&amp;price_max=20000" DesignTimeRectangle="362, 335, 932, 2029" DesignTimeScaleFactor="1" FullSelectorArgument="&lt;webctrl id='searchResultsTable' tag='TABLE' /&gt;&lt;webctrl tag='TBODY' /&gt;" Guid="726451fb-81f4-45d3-ac1b-7b481708f919" InformativeScreenshot="f0892008c019659ccc69841483360de2.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Konak Kiralık Daire Fiyatları ve Kiralık Ev İlanları - sahibinden.com' /&gt;" SearchSteps="Selector" Version="V4" Visibility="Interactive" />
               </uix:NExtractData.Target>
             </uix:NExtractData>
-            <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="450,552" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[string.Format(&quot;C:\Users\arslanmu21\Desktop\İlanlar\Evler{0}.xlsx&quot;,in_TransactionItem.SpecificContent(&quot;Il&quot;))]">
+            <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[ExtractDataTable]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="530,389" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+              <ui:ForEachRow.Body>
+                <ActivityAction x:TypeArguments="sd:DataRow">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:String" Name="Price" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign sap:VirtualizedContainerService.HintSize="434,105" sap2010:WorkflowViewState.IdRef="Assign_3">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Object">[CurrentRow("Fiyat")]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Object">[CurrentRow("Fiyat").ToString().Replace(".","").Replace(" TL","").Trim()]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEachRow.Body>
+            </ui:ForEachRow>
+            <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="530,552" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[string.Format(&quot;C:\Users\arslanmu21\Desktop\İlanlar\Evler{0}.xlsx&quot;,in_TransactionItem.SpecificContent(&quot;Il&quot;))]">
               <ui:ExcelApplicationScope.Body>
                 <ActivityAction x:TypeArguments="ui:WorkbookApplication">
                   <ActivityAction.Argument>
@@ -345,5 +384,74 @@
         <uix:TargetApp Area="-8, -8, 1456, 876" BrowserType="Chrome" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAbxSURBVFhHpZZtTFvnFcf9pWuypg3tmjVrGmLeEoMBG2PaJBDb2CkvyQJpvlXtFqRpmrSXT5s67a3pl0nTptXkhdAklEsCbZdG3VsrVe3AhhBCs3ZDi5ZAo21OA5hAOztNmrXhXj9n//M8j415SUe7I/30P+fh+vzPufcasC03YgF3zkzQ0zITrDLAyPshb3ImVEXTQS/NBDn3RmeClcZ0qHIvX6s/9v/HVIPbfjVU1com2kxcra2k6VovqBQM14sIVBpTAbddt/nsoTb2htlUGgWUWcYQ9dWAR0wFOPcgV8r1VMCj8AOfZ59uufzgyWES00a6sUfm8ww0cTZiuPZViLi/Qp1xrohNbV7m3ZiurXChUSzbIIO/QjDKUBlpE4r73BmdhE5ucys4V/X/HoI3h1EsvYFSjTaa9Kmm8W3aSDXPMJGmxkWTNS4BBaoer3ZhCMfSQ/Azh1FMGWU1z5ipxnIA1hq3kDUbaENlJHMxLmul49XljFDqii35LZnwucMZE4XI3khvo41Uzg1lzc1l7aIrOGO0KV3ZupAycWVLWVjbqnC/tNve/h3/nAmboqk2I7mNNpn57jfoxss9ZMYnKR3i5rskZl4la2QXWecqGcGaYn3LQ5JzHpx5BM5kTcNZ70PlS3uMbUYzjYUq1Fb6dknFxDKvr6YbJ3u0JVE8Kah/bBaYdGkqpU8xzNSLZL3jJ/OtChgxbgzhxjDQYbeqoajVXXAbu3M8LzxGzL4fBjO3io1Z39tSRuN1W+nWpTFp8JeYSd8yPqKqZ65R1T4N8qbwdYqOzsprxM0xst6ugZmLDZUOc85aDi3HEOVJGsG74H5hd4u7ZzdVANb+Jq80ZfCsBOv133TLxkein5AXhhmezso1R3ENh4h3K7PhMk1pljJOMXumpMXm7m42ALm6m4S7p1k8+Ys6ury5lN7b7BTMxGP1siFvV/l0UuLROse1eefv4C5xpC7sFdZZJ5lnS8hagtRwiWFzdTdHXScwwIkmTTO9useLIZwUe8RJN177nWy289kPqeJnyTlglNF0rutvdt6QnxFTJ4R5thhm2TgwlINS0NRQ8Yit/HhTsvz4LkpT1rWLth9spL/7yij2cIm4dWmUxuIWudF8MYnbkKTJJF7MTyZguBGGmiEJMSZInS1K2MqMr8JUImSu659/u5piVcWCN4lcnCXXTxNLA7P5dYLKoRH9QlpDRWSeKSSLQW4NaZV1gbCVdu6kUpiWGjuF1C6lj7Q30vkap2zSd/EWlaHpQtgoW7PP+zA0h3WmAEb5wjoDhgowTD7O5uABks7OHUKxk6BAqvjeUz5hxidoMpGi0p/8+zMxiscmProAkzwyB/Ogdgxhl7XKN3CdsJU8v+OvJR2NpNhBqGXuZH2+UQz2n5SbtHRcJycaO38MWD+Ful9dk59JTZ+CGRvlCnMwlyzJBrBecG4Oro/aHB0NRvGxRpqjQQ7gONYgOP/6a0/JZn/+1yyVwLwYKP1A5nP13HkvHhmH9fYWMk+vBw/B9CHBqnOyWE+vM2yOow0tIGPIyPpovQCsdPy8+ioe6rtJjh99QA6YSF0Izg/1/kdee228E4brYLYO2z6I/EGYK6y0Dqzba7MbgZziI/XJTUfqKRsH69E6wXi79ojR9/8hG//pwi0K/jJJm2CYzdeOfUjn/qlevInEu5QYLCFz4CuatTBdK9JqnX5A5hTNUX+WNz1X37rpuTraqJH5kTqRroHwGntE1/nfSgOOi5OWHIaZwEuaDr6m849bsN1aGD+QwWLt/7JUa2CNsPrXGNKcw9HeYN/Y/igxRVrTeRaisH27CPQ8Sa+MvkEX9R3hGL9+lYy/vUJP/P4H5O/wwWiNYkBr//0ytwbuFzIH2H7+f0ZFbaHWosPbKU1hG+ujxKaFhyWkNCT4ZxldwKk/FMHkS8pU6n3YVipZyFlTA/ct/k/ZHg7kFBwOxQraVOOCQyEqBKx8JpXP2ubX2Tze9TDM7hVm9F4YAlaAM605wormxLTl4sAQ9oK2YCzdMP9gkApA/qGgkHCu66XOL7+JZxxdjQHuAathuBqGUNSa2KJbvzB4iPwDtTHZ9EAt5R2sFQznafJY8XNWmR8I0ve7y8mM3I1N71EKrOgqmK4SnM9G7ob5ik83TwcPkbe/NgbIfiAg8vYHpMochvb9Kk9T076VLr+B5xxZxabQu+ZhRe6Kfbxc8+zAIM/YW2F+W/wYxi86Xs4ns28ljL4oMSMrBNdmBPStDGe+758n+G7khv3GhrCfNrT6Re6zPsF5btgn6+q2zTBZobmTzF4QuTNp9q5s/fj1z7H17QKD5Kz/9bYWDNCFAaLQJKCTp/A7PXJHItX7hZFU7wpjtu+OluVvbLP9F5lmWAkTeM7rAAAAAElFTkSuQmCC" InformativeScreenshot="99ccf1c34dd6e8ca65310c50d729beb1.jpg" Selector="&lt;html app='chrome.exe' url='https://www.sahibinden.com/kategori/emlak-konut' /&gt;" Title="Konut Fiyatları ve Emlak İlanları sahibinden.com'da" Url="[in_Config(&quot;ApplicationUrl&quot;).ToString]" />
       </uix:NApplicationCard.TargetApp>
     </uix:NApplicationCard>
+    <ui:BuildDataTable DataTable="[AverageTable]" DisplayName="Build Data Table" sap:VirtualizedContainerService.HintSize="626,92" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Mahalle&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Ev_x0020_Sayısı&quot; msdata:Caption=&quot;&quot; type=&quot;xs:int&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Ortalama_x0020_Fiyat&quot; msdata:Caption=&quot;&quot; type=&quot;xs:double&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+    <Assign sap:VirtualizedContainerService.HintSize="626,115" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[Mahalleler]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)" xml:space="preserve">[(From row In ExtractDataTable.AsEnumerable()
+                     Select row.Field(Of String)("Mahalle")).Distinct().ToList()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each mahalle" sap:VirtualizedContainerService.HintSize="626,785" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[Mahalleler]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="mahalle" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,639" sap2010:WorkflowViewState.IdRef="Sequence_10">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign sap:VirtualizedContainerService.HintSize="434,114" sap2010:WorkflowViewState.IdRef="Assign_7">
+              <Assign.To>
+                <OutArgument x:TypeArguments="scg:List(sd:DataRow)">[FilteredRows]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="scg:List(sd:DataRow)">[ExtractDataTable.Select("Mahalle = '" + mahalle + "'").ToList]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap:VirtualizedContainerService.HintSize="434,114" sap2010:WorkflowViewState.IdRef="Assign_8">
+              <Assign.To>
+                <OutArgument x:TypeArguments="scg:List(x:Double)">[Fiyatlar]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="scg:List(x:Double)">[FilteredRows.Select(Function(row) Convert.ToDouble(row("Fiyat"))).ToList()]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap:VirtualizedContainerService.HintSize="434,114" sap2010:WorkflowViewState.IdRef="Assign_9">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Double">[OrtalamaFiyat]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Double">[Fiyatlar.Average]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[new Object(){mahalle,FilteredRows.Count,OrtalamaFiyat}]" DataTable="[AverageTable]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="434,209" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="626,550" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_3" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[string.Format(&quot;C:\Users\arslanmu21\Desktop\İlanlar\Evler{0}.xlsx&quot;,in_TransactionItem.SpecificContent(&quot;Il&quot;))]">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="416,417" sap2010:WorkflowViewState.IdRef="Sequence_11">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ExcelWriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[AverageTable]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="354,120" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_2" SheetName="Mahalle Bazında Rapor" />
+            <ui:ExcelSetRangeColor Color="[System.Drawing.Color.Green]" DisplayName="Set Range Color" sap:VirtualizedContainerService.HintSize="354,209" sap2010:WorkflowViewState.IdRef="ExcelSetRangeColor_2" Range="A1:C1" SheetName="Mahalle Bazında Rapor" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
   </Sequence>
 </Activity>
